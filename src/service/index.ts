@@ -10,7 +10,7 @@ export const TIME_OUT = 10000
 // }
 // 方法二:
 if (import.meta.env.VITE_MODE === 'DEV') {
-  BASE_URL = 'http://codercba.com:8000/dev'
+  BASE_URL = 'http://123.207.32.32:5000'
 } else if (import.meta.env.VITE_MODE === 'PROD') {
-  BASE_URL = 'http://codercba.com:8000/prod'
+  BASE_URL = 'http://123.207.32.32:5000'
 }

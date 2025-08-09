@@ -25,6 +25,8 @@ export default [
   },
   /** js推荐配置 */
   eslint.configs.recommended,
+  /** TypeScript 推荐配置 */
+  ...tseslint.configs.recommended,
   /** vue推荐配置 */
   ...eslintPluginVue.configs['flat/recommended'],
   /** prettier 配置 */

@@ -8,7 +8,6 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
-    console.log('成功进行请求拦截')
     return config
   },
   (error) => {
@@ -18,10 +17,11 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response) => {
-    console.log('成功进行相应拦截')
     return response
   },
   (error) => {
     return Promise.reject(error)
   }
 )
+
+export { service }
