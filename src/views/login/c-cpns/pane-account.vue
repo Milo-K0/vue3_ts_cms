@@ -27,11 +27,15 @@ import type { ElForm, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useLoginStore } from '@/store/login/login'
 import type { IAccount } from '@/types/login'
+import cache from '@/utils/cache'
+
+const CACHE_NAME = 'name'
+const CACHE_PASSWORD = 'password'
 
 // 定义account数据
 const account = reactive<IAccount>({
-  name: '',
-  password: ''
+  name: cache.getCache(CACHE_NAME) ?? '',
+  password: cache.getCache(CACHE_PASSWORD) ?? ''
 })
 // 定义校验规则
 const accountRules: FormRules = {
@@ -61,16 +65,24 @@ const accountRules: FormRules = {
   ]
 }
 
-// 那到当前form
+// 拿到当前form
 const formRef = ref<InstanceType<typeof ElForm>>()
 
-const handleLogin = function () {
+const handleLogin = function (isRemPwd: boolean) {
   formRef.value?.validate((valid) => {
     if (valid) {
       const name = account.name
       const password = account.password
       const loginStore = useLoginStore()
-      loginStore.loginAccountAction({ name, password })
+      loginStore.loginAccountAction({ name, password }).then(() => {
+        if (isRemPwd) {
+          cache.setCache(CACHE_NAME, name)
+          cache.setCache(CACHE_PASSWORD, password)
+        } else {
+          cache.removeCache(CACHE_NAME)
+          cache.removeCache(CACHE_PASSWORD)
+        }
+      })
     } else {
       ElMessage.error('验证失败~')
     }

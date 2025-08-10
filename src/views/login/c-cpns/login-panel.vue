@@ -23,7 +23,7 @@
     </div>
     <!-- 控制选项 -->
     <div class="control-account">
-      <el-checkbox v-model="remember" label="记住密码" size="large" />
+      <el-checkbox v-model="isRemPwd" label="记住密码" size="large" />
       <el-link type="primary">忘记密码</el-link>
     </div>
     <!-- 登录按钮 -->
@@ -35,11 +35,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import paneAccount from './pane-account.vue'
 import panePhone from './pane-phone.vue'
+import cache from '@/utils/cache'
 
-const remember = ref(false)
+const isRemPwd = ref(cache.getCache('isRemPwd') === 'true')
+
+watch(isRemPwd, (newVal) => {
+  cache.setCache('isRemPwd', newVal.toString())
+})
 
 const activeName = ref<string>('account')
 
@@ -47,7 +52,10 @@ const accountRef = ref<InstanceType<typeof paneAccount>>()
 
 const handlerLoginClick = function () {
   if (activeName.value === 'account') {
-    accountRef.value?.handleLogin()
+    accountRef.value?.handleLogin(isRemPwd.value)
+    if (isRemPwd.value) {
+      console.log('记住账号和密码')
+    }
   } else if (activeName.value === 'phone') {
     console.log('手机登录方式进行登录')
   }

@@ -32,12 +32,15 @@ export default [
   /** prettier 配置 */
   eslintPluginPrettierRecommended,
 
-  //javascript 规则
+  //javascript/typescript 规则
   {
     files: ['**/*.{js,mjs,cjs,vue,ts}'],
     rules: {
       // 对象结尾逗号
       'comma-dangle': 'off',
+
+      // 限制ts不可以使用any
+      '@typescript-eslint/no-explicit-any': 'off',
 
       // 关闭未定义变量
       'no-undef': 'off',
