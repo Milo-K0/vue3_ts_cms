@@ -37,8 +37,8 @@
 </template>
 <script lang="ts" setup>
 import { useLoginStore } from '@/store/login/login'
-import { firstMenu, mapPathToManus } from '@/utils/map-manus'
-import { ref } from 'vue'
+import { mapPathToManus } from '@/utils/map-manus'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 const router = useRouter()
@@ -55,8 +55,10 @@ const userMenus = loginStore.userMenus
 const handleElMenuItemClick = function (subItem: any) {
   router.push(subItem.url)
 }
-const pathMenu = mapPathToManus(route.path, userMenus)
-const defaultActive = ref(pathMenu.id + '')
+const defaultActive = computed(() => {
+  const pathMenu = mapPathToManus(route.path, userMenus)
+  return pathMenu.id + ''
+})
 </script>
 <style lang="less" scoped>
 .main-menu {

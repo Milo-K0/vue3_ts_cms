@@ -26,7 +26,12 @@ export function mapManusToRoutes(userMenus) {
     for (const subItem of item.children) {
       const route = localRoutes.find((item) => item.path === subItem.url)
       if (!firstMenu && route) firstMenu = subItem
-      if (route) routes.push(route)
+      if (route) {
+        if (!routes.find((val) => val.path === item.url)) {
+          routes.push({ path: item.url, redirect: item.children[0].url })
+        }
+        routes.push(route)
+      }
     }
   }
   return routes
@@ -45,4 +50,17 @@ export function mapPathToManus(path: string, userMenus: any) {
       }
     }
   }
+}
+
+export function mapPathToBreadCrumb(path: string, userMenus: any) {
+  const breadCrumbList: any[] = []
+  for (const item of userMenus) {
+    for (const subItem of item.children) {
+      if (path === subItem.url) {
+        breadCrumbList.push({ name: item.name, path: item.url })
+        breadCrumbList.push({ name: subItem.name, path: subItem.url })
+      }
+    }
+  }
+  return breadCrumbList
 }

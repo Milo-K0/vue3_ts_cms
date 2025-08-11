@@ -6,7 +6,9 @@
       </el-icon>
     </div>
     <div class="container">
-      <div class="breadcrumb">面包屑</div>
+      <div class="breadcrumb">
+        <headerCrumb />
+      </div>
       <div class="info"><header-info /></div>
     </div>
   </div>
@@ -14,6 +16,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import headerInfo from './c-cpns/header-info.vue'
+import headerCrumb from './c-cpns/header-crumb.vue'
 
 const emit = defineEmits(['menu-icon-click'])
 
