@@ -22,18 +22,35 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>Action 1</el-dropdown-item>
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item disabled>Action 4</el-dropdown-item>
-            <el-dropdown-item divided>Action 5</el-dropdown-item>
+            <el-dropdown-item @click="handleDropClick">
+              <el-icon><CircleClose /></el-icon>
+              <span>退出系统</span>
+            </el-dropdown-item>
+            <el-dropdown-item divided>
+              <el-icon><InfoFilled /></el-icon>
+              <span>个人信息</span>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <el-icon><Unlock /></el-icon>
+              <span>修改密码</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { LOGIN_TOKEN } from '@/global/constants'
+import cache from '@/utils/cache'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const handleDropClick = function () {
+  cache.removeCache(LOGIN_TOKEN)
+  router.push('/login')
+}
+</script>
 <style lang="less" scoped>
 .header-info {
   display: flex;
@@ -65,6 +82,10 @@
   .info-form {
     display: flex;
     align-items: center;
+    :global(.el-dropdown-menu__item) {
+      line-height: 36px !important;
+      padding: 6px 22px;
+    }
   }
   .info {
     display: flex;
