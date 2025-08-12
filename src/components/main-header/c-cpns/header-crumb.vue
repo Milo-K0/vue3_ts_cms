@@ -20,7 +20,4 @@ const loginStore = useLoginStore()
 const userMenus = loginStore.userMenus
 const breadcrumbs = computed(() => mapPathToBreadCrumb(route.path, userMenus))
 </script>
-<style lang="less" scoped>
-.header-crumb {
-}
-</style>
+<style lang="less" scoped></style>

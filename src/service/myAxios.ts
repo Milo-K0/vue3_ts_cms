@@ -12,7 +12,8 @@ service.interceptors.request.use(
   (config) => {
     const token = cache.getCache(LOGIN_TOKEN)
     if (config.headers && token) {
-      config.headers!.Authorization = token
+      config.headers!.Authorization = 'Bearer ' + token
+      console.log(config.headers)
     }
     return config
   },
