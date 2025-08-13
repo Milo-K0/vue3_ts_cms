@@ -9,6 +9,7 @@ import cache from '@/utils/cache'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { mapManusToRoutes } from '@/utils/map-manus'
+import { useMainStore } from '../main/main'
 
 interface ILoginInfo {
   token: string
@@ -60,6 +61,9 @@ const useLoginStore = defineStore('login', {
         this.userInfo = userInfo
         this.userMenus = userMenus
       }
+      // 请求数据
+      const mainStore = useMainStore()
+      mainStore.getMainDataActions()
       // 动态添加路由
       const routes = mapManusToRoutes(userMenus)
       routes.forEach((route) => router.addRoute('main', route))

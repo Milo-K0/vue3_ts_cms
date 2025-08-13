@@ -13,7 +13,6 @@ service.interceptors.request.use(
     const token = cache.getCache(LOGIN_TOKEN)
     if (config.headers && token) {
       config.headers!.Authorization = 'Bearer ' + token
-      console.log(config.headers)
     }
     return config
   },

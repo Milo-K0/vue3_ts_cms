@@ -2,20 +2,12 @@
   <div class="user-search">
     <el-form label-width="75" :model="searchForm" ref="formRef">
       <el-row>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item label="用户名" prop="name">
             <el-input v-model="searchForm.name" placeholder="请输入用户名" />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="真实姓名" prop="realname">
-            <el-input
-              v-model="searchForm.realname"
-              placeholder="请输入真实姓名"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item label="电话号码" prop="cellphone">
             <el-input
               v-model="searchForm.cellphone"
@@ -23,7 +15,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <!-- <el-col :span="8">
           <el-form-item label="状态" prop="enable">
             <el-select v-model="searchForm.enable" placeholder="请选择状态">
               <el-option label="启用" :value="1" />
@@ -41,7 +33,7 @@
               end-placeholder="结束时间"
             />
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
     </el-form>
     <div class="btns">
@@ -58,7 +50,7 @@
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
 
-const searchForm = reactive({
+const searchForm = reactive<any>({
   name: '',
   realname: '',
   cellphone: '',
@@ -66,12 +58,15 @@ const searchForm = reactive({
   createAt: []
 })
 
+const emit = defineEmits(['searchClick', 'refreshClick'])
+
 const formRef = ref<InstanceType<typeof ElForm>>()
 const handleRefreshClick = function () {
   formRef.value?.resetFields()
+  emit('refreshClick')
 }
 const handleSearchClick = function () {
-  console.log('进行查询')
+  emit('searchClick', searchForm)
 }
 </script>
 <style lang="less" scoped>
