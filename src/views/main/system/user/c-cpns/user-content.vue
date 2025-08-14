@@ -57,7 +57,12 @@
         </el-table-column>
         <el-table-column label="操作" width="170px" align="center">
           <template #default="scope">
-            <el-button size="small" icon="Edit" type="primary" text
+            <el-button
+              size="small"
+              icon="Edit"
+              type="primary"
+              text
+              @click="handleChangeClick(scope.row)"
               >编辑
             </el-button>
             <el-button
@@ -93,6 +98,7 @@ import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import userModal from './user-modal.vue'
 import type UserModal from './user-modal.vue'
+
 const systemStore = useSystemStore()
 const { usersList, usersTotalCount } = storeToRefs(systemStore)
 const currentPage = ref(1)
@@ -118,10 +124,14 @@ const handleDeleteClick = async function (id: number) {
 }
 
 const userModalRef = ref<InstanceType<typeof UserModal>>()
-
 const handleNewUserClick = function () {
-  userModalRef.value?.openCenterDialog()
+  userModalRef.value?.openCenterDialog(true)
 }
+
+const handleChangeClick = function (newData: any) {
+  userModalRef.value?.openCenterDialog(false, newData)
+}
+
 defineExpose({ fetchUsersListData })
 </script>
 <style lang="less" scoped>
