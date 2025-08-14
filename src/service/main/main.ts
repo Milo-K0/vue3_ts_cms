@@ -15,3 +15,11 @@ export function postNewUserData(formData: any) {
 export function patchChangeUser(id: number, formData: any) {
   return service.patch(`/users/${id}`, formData)
 }
+
+export function postNewPageData(pageName, formData) {
+  return service.post(`/${pageName}`, formData)
+}
+
+export function patchChangePage(pageName, id, formData) {
+  return service.patch(`/${pageName}/${id}`, formData)
+}

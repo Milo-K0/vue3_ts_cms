@@ -1,7 +1,9 @@
 import {
   getEntireDepartments,
   getEntreRoles,
+  patchChangePage,
   patchChangeUser,
+  postNewPageData,
   postNewUserData
 } from '@/service/main/main'
 import { defineStore } from 'pinia'
@@ -39,12 +41,22 @@ export const useMainStore = defineStore('main', {
     },
     async postNewUserDataActions(formData: any) {
       const newUserResult = postNewUserData(formData)
-      console.log(newUserResult)
       return newUserResult
     },
     async patchChangeUserDataActions(id: number, formData: any) {
       const changeUserResult = patchChangeUser(id, formData)
       return changeUserResult
+    },
+    async postNewPageDataActions(pageName, formData) {
+      const newPageResult = postNewPageData(pageName, formData)
+      return newPageResult
+    },
+    async patchChangePageDataActions(
+      pageName: string,
+      id: number,
+      formData: any
+    ) {
+      patchChangePage(pageName, id, formData)
     }
   }
 })

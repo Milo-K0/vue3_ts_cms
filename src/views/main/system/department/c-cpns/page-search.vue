@@ -1,34 +1,27 @@
 <template>
-  <div class="user-search">
+  <div class="page-search">
     <el-form label-width="75" :model="searchForm" ref="formRef">
       <el-row>
         <el-col :span="8">
-          <el-form-item label="用户名" prop="name">
-            <el-input v-model="searchForm.name" placeholder="请输入用户名" />
+          <el-form-item label="部门名称" prop="name">
+            <el-input v-model="searchForm.name" placeholder="请输入部门名称" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="真实姓名" prop="realname">
-            <el-input
-              v-model="searchForm.realname"
-              placeholder="请输入真实姓名"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="电话号码" prop="cellphone">
-            <el-input
-              v-model="searchForm.cellphone"
-              placeholder="请输入电话号码"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="状态" prop="enable">
-            <el-select v-model="searchForm.enable" placeholder="请选择状态">
-              <el-option label="启用" :value="1" />
-              <el-option label="禁用" :value="0" />
+          <el-form-item label="上级部门" prop="parentId">
+            <el-select v-model="searchForm.parentId" placeholder="请选择部门">
+              <template v-for="item in entreDepartments" :key="item.id">
+                <el-option :label="item.name" :value="item.id"></el-option>
+              </template>
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="部门领导" prop="leader">
+            <el-input
+              v-model="searchForm.leader"
+              placeholder="请输入部门领导"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -55,15 +48,23 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useMainStore } from '@/store/main/main'
 import type { ElForm } from 'element-plus'
-import { reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { onMounted, reactive, ref } from 'vue'
+
+const mainStore = useMainStore()
+const { entreDepartments } = storeToRefs(mainStore)
+
+onMounted(() => {
+  console.log(entreDepartments)
+})
 
 const searchForm = reactive<any>({
   name: '',
-  realname: '',
-  cellphone: '',
-  enable: 1,
-  createAt: []
+  leader: '',
+  parentId: '',
+  createAt: ''
 })
 
 const emit = defineEmits(['searchClick', 'refreshClick'])
@@ -77,8 +78,9 @@ const handleSearchClick = function () {
   emit('searchClick', searchForm)
 }
 </script>
+
 <style lang="less" scoped>
-.user-search {
+.page-search {
   background-color: #fff;
   padding: 20px;
   .el-form-item {

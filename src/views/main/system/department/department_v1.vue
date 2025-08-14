@@ -1,7 +1,6 @@
 <template>
   <div class="department">
     <pageSearch
-      :search-config="searchConfig"
       @search-click="handleSearchClick"
       @refresh-click="handleRefreshClick"
     />
@@ -11,9 +10,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import pageContent from './c-cpns/page-content.vue'
-import pageSearch from '@/components/page-search/page-search.vue'
+import pageSearch from './c-cpns/page-search.vue'
 import type PageContent from './c-cpns/page-content.vue'
-import searchConfig from './config/search.config'
 const pageContentRef = ref<InstanceType<typeof PageContent>>()
 const handleSearchClick = function (searchForm) {
   pageContentRef.value?.fetchPageListData(searchForm)

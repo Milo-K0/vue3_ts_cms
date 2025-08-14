@@ -64,3 +64,8 @@ export function mapPathToBreadCrumb(path: string, userMenus: any) {
   }
   return breadCrumbList
 }
+
+export function mapDepartmentIdToName(id: number, departmentList) {
+  const targetDepartment = departmentList.find((item) => item.id === id)
+  return targetDepartment.name
+}

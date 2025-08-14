@@ -13,3 +13,12 @@ export function postUsersListData(info: any) {
 export function deleteUsersById(id: number) {
   return service.delete(`/users/${id}`)
 }
+
+export function deletePageById(pageName, id) {
+  return service.delete(`/${pageName}/${id}`)
+}
+
+// 适用所有页面的请求列表接口
+export function postPageListData(pageName: string, queryInfo: any) {
+  return service.post(`/${pageName}/list`, queryInfo)
+}
