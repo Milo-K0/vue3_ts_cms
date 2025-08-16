@@ -122,12 +122,16 @@ const handleDeleteClick = async function (id: number) {
   systemStore.deletePageByIdActions('department', id)
 }
 
+const emit = defineEmits(['handleNewOrChangeUserClick'])
+
 const pageModalRef = ref<InstanceType<typeof PageModal>>()
 const handleNewUserClick = function () {
+  emit('handleNewOrChangeUserClick', true)
   pageModalRef.value?.openCenterDialog(true)
 }
 
 const handleChangeClick = function (newData: any) {
+  emit('handleNewOrChangeUserClick', false, newData)
   pageModalRef.value?.openCenterDialog(false, newData)
 }
 
