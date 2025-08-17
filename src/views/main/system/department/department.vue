@@ -9,7 +9,14 @@
       :content-config="contentConfig"
       ref="pageContentRef"
       @handle-new-or-change-user-click="handleNewOrChangeClick"
-    />
+    >
+      <template #leader="scope">
+        <span class="leaderSlot">{{ scope.row[scope.prop] }}</span>
+      </template>
+      <template #parent="scope">
+        <span class="parentSlot">{{ scope.row[scope.prop] }}</span>
+      </template>
+    </pageContent>
     <pageModal ref="pageModalRef" />
   </div>
 </template>
@@ -40,5 +47,11 @@ const handleNewOrChangeClick = function (isNew, formData) {
 </script>
 <style lang="less" scoped>
 .department {
+  .leaderSlot {
+    color: red;
+  }
+  .parentSlot {
+    color: blue;
+  }
 }
 </style>

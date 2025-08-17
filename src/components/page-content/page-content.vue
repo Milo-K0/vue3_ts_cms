@@ -38,8 +38,19 @@
               </template>
             </el-table-column>
           </template>
+          <template v-else-if="item.type === 'custom'">
+            <el-table-column v-bind="item" align="center">
+              <template #default="scope">
+                <slot
+                  :name="item.slotName"
+                  v-bind="scope"
+                  :prop="item.prop"
+                ></slot>
+              </template>
+            </el-table-column>
+          </template>
           <template v-else>
-            <el-table-column v-bind="item" align="center"></el-table-column>
+            <el-table-column v-bind="item" align="center"> </el-table-column>
           </template>
         </template>
       </el-table>
@@ -72,6 +83,7 @@ onMounted(() => {
 
 interface Iprops {
   contentConfig: {
+    pageName: string
     header?: {
       title: string
       btnTitle: string
@@ -95,7 +107,7 @@ const fetchPageListData = function (searchForm: any = {}) {
     offset: (currentPage.value - 1) * pageSize.value,
     ...searchForm
   }
-  systemStore.postPageListActions('department', info)
+  systemStore.postPageListActions(contentConfig.pageName, info)
 }
 fetchPageListData()
 const handleSizeChange = function () {
@@ -106,7 +118,7 @@ const handleCurrentChange = function () {
 }
 
 const handleDeleteClick = async function (id: number) {
-  systemStore.deletePageByIdActions('department', id)
+  systemStore.deletePageByIdActions(contentConfig.pageName, id)
 }
 
 const emit = defineEmits(['handleNewOrChangeUserClick'])
