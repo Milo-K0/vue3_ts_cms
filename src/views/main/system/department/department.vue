@@ -17,33 +17,45 @@
         <span class="parentSlot">{{ scope.row[scope.prop] }}</span>
       </template>
     </pageContent>
-    <pageModal ref="pageModalRef" />
+    <pageModal :modal-config="modalConfigRef" ref="pageModalRef" />
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import pageContent from '@/components/page-content/page-content.vue'
 import contentConfig from './config/content.config'
 import pageSearch from '@/components/page-search/page-search.vue'
-import type PageContent from '@/components/page-content/page-content.vue'
 import searchConfig from './config/search.config'
 import pageModal from '@/components/page-modal/page-modal.vue'
-import type PageModal from '@/components/page-modal/page-modal.vue'
-const pageContentRef = ref<InstanceType<typeof PageContent>>()
-const handleSearchClick = function (searchForm) {
-  pageContentRef.value?.fetchPageListData(searchForm)
+import modalConfig from './config/modal.config'
+import { useMainStore } from '@/store/main/main'
+import usePageContent from '@/hooks/usePageContent'
+import usePageModal from '@/hooks/usePageModal'
+
+interface DepartmentItem {
+  label: string // 部门名称
+  value: number // 部门ID（根据实际类型调整，可能是string）
 }
-const handleRefreshClick = function () {
-  pageContentRef.value?.fetchPageListData()
-}
-const pageModalRef = ref<InstanceType<typeof PageModal>>()
-const handleNewOrChangeClick = function (isNew, formData) {
-  if (isNew) {
-    pageModalRef.value?.openCenterDialog(isNew)
-  } else {
-    pageModalRef.value?.openCenterDialog(isNew, formData)
-  }
-}
+
+const modalConfigRef = computed(() => {
+  const mainStore = useMainStore()
+  const departments: DepartmentItem[] = mainStore.entreDepartments.map(
+    (item) => {
+      return { label: item.name, value: item.id }
+    }
+  )
+  modalConfig.formData.forEach((item) => {
+    if (item.prop === 'parentId') {
+      item.options?.push(...departments)
+    }
+  })
+  return modalConfig
+})
+
+const { pageContentRef, handleSearchClick, handleRefreshClick } =
+  usePageContent()
+
+const { pageModalRef, handleNewOrChangeClick } = usePageModal()
 </script>
 <style lang="less" scoped>
 .department {

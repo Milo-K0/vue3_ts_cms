@@ -49,10 +49,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useMainStore } from '@/store/main/main'
 import type { ElForm } from 'element-plus'
-import { storeToRefs } from 'pinia'
-import { onMounted, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 interface IProps {
   searchConfig: {
@@ -66,13 +64,6 @@ const initialForm: any = {}
 for (const item of props.searchConfig.formItems) {
   initialForm[item.prop] = item.initialValue ?? ''
 }
-
-const mainStore = useMainStore()
-const { entreDepartments } = storeToRefs(mainStore)
-
-onMounted(() => {
-  console.log(entreDepartments)
-})
 
 const searchForm = reactive<any>(initialForm)
 

@@ -66,7 +66,6 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <pageModal ref="pageModalRef" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -74,8 +73,6 @@ import { useSystemStore } from '@/store/main/system/system'
 import { FormatUtc } from '@/utils/format'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
-import pageModal from '@/components/page-modal/page-modal.vue'
-import type PageModal from '@/components/page-modal/page-modal.vue'
 
 onMounted(() => {
   console.log(contentConfig.propsList)
@@ -107,6 +104,7 @@ const fetchPageListData = function (searchForm: any = {}) {
     offset: (currentPage.value - 1) * pageSize.value,
     ...searchForm
   }
+  console.log(info)
   systemStore.postPageListActions(contentConfig.pageName, info)
 }
 fetchPageListData()
@@ -123,7 +121,6 @@ const handleDeleteClick = async function (id: number) {
 
 const emit = defineEmits(['handleNewOrChangeUserClick'])
 
-const pageModalRef = ref<InstanceType<typeof PageModal>>()
 const handleNewUserClick = function () {
   emit('handleNewOrChangeUserClick', true)
 }
