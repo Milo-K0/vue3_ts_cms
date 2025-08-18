@@ -19,7 +19,7 @@
                 :placeholder="item.placeholder"
               ></el-input>
             </template>
-            <template v-if="item.type === 'date-picker'">
+            <template v-else-if="item.type === 'date-picker'">
               <el-date-picker
                 v-model="formData[item.prop]"
                 type="daterange"
@@ -28,7 +28,7 @@
                 end-placeholder="结束时间"
               />
             </template>
-            <template v-if="item.type === 'select'">
+            <template v-else-if="item.type === 'select'">
               <el-select
                 v-model="formData[item.prop]"
                 :placeholder="item.placeholder"
@@ -40,6 +40,9 @@
                   ></el-option>
                 </template>
               </el-select>
+            </template>
+            <template v-else-if="item.type === 'custom'">
+              <slot :name="item.slotName"></slot>
             </template>
           </el-form-item>
         </template>
@@ -71,6 +74,7 @@ interface IProps {
     }
     formData: any[]
   }
+  otherInfo?: any
 }
 
 const props = defineProps<IProps>()
@@ -116,8 +120,14 @@ const openCenterDialog = function (isNew: boolean, newData?: any) {
 const systemStore = useSystemStore()
 
 const handleConfirmClick = function () {
-  const submitData = {
+  let submitData = {
     ...formData
+  }
+  if (props.otherInfo) {
+    submitData = {
+      ...formData,
+      ...props.otherInfo
+    }
   }
   if (isNewRef.value) {
     mainStore.postNewPageDataActions(props.modalConfig.pageName, submitData)
@@ -129,7 +139,7 @@ const handleConfirmClick = function () {
     mainStore.patchChangePageDataActions(
       props.modalConfig.pageName,
       newDataRef.value.id,
-      formData
+      submitData
     )
     systemStore.postPageListActions(props.modalConfig.pageName, {
       offset: 0,

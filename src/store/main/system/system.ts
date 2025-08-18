@@ -27,7 +27,6 @@ const useSystemStore = defineStore('system', {
     },
     async postPageListActions(pageName, queryInfo) {
       const pageListResult = await postPageListData(pageName, queryInfo)
-      console.log(pageListResult)
       this.pageList = pageListResult.data.list
       this.pageTotalCount = pageListResult.data.totalCount
     },

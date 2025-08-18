@@ -7,7 +7,21 @@
       }}</el-button>
     </div>
     <div class="table">
-      <el-table :data="pageList" border style="width: 100%">
+      <el-table
+        :data="pageList"
+        border
+        style="width: 100%"
+        :row-key="
+          props.contentConfig?.childrenTree?.rowKey
+            ? props.contentConfig?.childrenTree?.rowKey
+            : 'id'
+        "
+        :tree-props="{
+          children: props.contentConfig?.childrenTree?.treeProps?.children
+            ? props.contentConfig?.childrenTree?.treeProps?.children
+            : ''
+        }"
+      >
         <template v-for="item in contentConfig.propsList" :key="item.prop">
           <template v-if="item.type === 'timer'">
             <el-table-column v-bind="item" align="center">
@@ -72,11 +86,7 @@
 import { useSystemStore } from '@/store/main/system/system'
 import { FormatUtc } from '@/utils/format'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
-
-onMounted(() => {
-  console.log(contentConfig.propsList)
-})
+import { ref } from 'vue'
 
 interface Iprops {
   contentConfig: {
@@ -86,6 +96,7 @@ interface Iprops {
       btnTitle: string
     }
     propsList: any[]
+    childrenTree?: any
   }
 }
 
@@ -104,7 +115,6 @@ const fetchPageListData = function (searchForm: any = {}) {
     offset: (currentPage.value - 1) * pageSize.value,
     ...searchForm
   }
-  console.log(info)
   systemStore.postPageListActions(contentConfig.pageName, info)
 }
 fetchPageListData()

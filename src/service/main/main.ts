@@ -23,3 +23,7 @@ export function postNewPageData(pageName, formData) {
 export function patchChangePage(pageName, id, formData) {
   return service.patch(`/${pageName}/${id}`, formData)
 }
+
+export function getEntreMenus() {
+  return service.post('/menu/list')
+}

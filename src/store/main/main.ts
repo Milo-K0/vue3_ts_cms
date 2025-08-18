@@ -1,5 +1,6 @@
 import {
   getEntireDepartments,
+  getEntreMenus,
   getEntreRoles,
   patchChangePage,
   patchChangeUser,
@@ -11,6 +12,7 @@ import { defineStore } from 'pinia'
 interface IMainState {
   entreRoles: IRole[]
   entreDepartments: IDepartment[]
+  entreMenus: any[]
 }
 
 // 定义角色数据的接口
@@ -30,7 +32,8 @@ interface IDepartment {
 export const useMainStore = defineStore('main', {
   state: (): IMainState => ({
     entreRoles: [],
-    entreDepartments: []
+    entreDepartments: [],
+    entreMenus: []
   }),
   actions: {
     async getMainDataActions() {
@@ -57,6 +60,11 @@ export const useMainStore = defineStore('main', {
       formData: any
     ) {
       patchChangePage(pageName, id, formData)
+    },
+    async getEntreMenusActions() {
+      const menusResult = await getEntreMenus()
+      this.entreMenus = menusResult.data.list
+      return menusResult
     }
   }
 })

@@ -69,3 +69,19 @@ export function mapDepartmentIdToName(id: number, departmentList) {
   const targetDepartment = departmentList.find((item) => item.id === id)
   return targetDepartment.name
 }
+
+export function mapMenuListToIds(menuList: any[]) {
+  const ids: number[] = []
+  function recurseGetId(menus: any) {
+    for (const item of menus) {
+      if (item.children) {
+        recurseGetId(item.children)
+      } else {
+        ids.push(item.id)
+      }
+    }
+  }
+  recurseGetId(menuList)
+
+  return ids
+}
